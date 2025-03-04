@@ -2,11 +2,11 @@ This code can be used to estimate the net growth rate. It uses parts of the R pa
 
 ### Overview of the Files
 
-Estimation_Durrett.R: Estimation of the net growth rate with the formula of Durrett <br>
-determine_prefactor.R: Determination of the prefactors for one estimation method <br>
-new_estimation.R: Estimation of the net growth rate with the new methods <br>
-main.R: Comparison of the different estimation methods, including Phylofit and the new ones <br> 
-plots_growthRate.R: Plot the results <br>
+Estimation_Durrett.R: Estimation of the net growth rate with the formula of Durrett. <br>
+calc_prefactor.R: Determination of the prefactors for \hat r_{JS, MSE}. <br>
+simulation_CPP.R: Simulation of the CPP, for which we need some new outputs compared to cloneRate. However, the code is basically the same as in cloneRate. <br>
+main.R: Comparison of the different estimation methods, including Phylofit and the new ones. <br> 
+Create_Plot.R: Plot the results. <br>
 
 ### Usage
 
