@@ -1,4 +1,4 @@
-
+# Simulates a CPP, as Phylofot does, but the output is a bit different.
 calculate_leaf_info <- function(tree_data, n) {
   # Calculate the leaves
   leaves <- setdiff(tree_data$Node, tree_data$Parent)
@@ -311,27 +311,6 @@ internalLengths <- function(tree, alpha = 0.05) {
   return(list(result.df, descendant_df))
 }
 
-n = 6
-test =simUltra(3,1,100,n)
-res_new = internalLengths(test[[1]])
-input = calculate_leaf_info(res_new[[2]],n)
-print(res_new[[2]])
-res = ew_durrett_adapted(n, res_new[[2]])
-print(res)
-rep_new <- function(numRep, n, t, r){
-  est = rep(0, numRep)
-  for(i in 1:numRep){
-    a = runif(1, min = r, max = r+1)
-    
-    test =simUltra(a,a-r,t,n)
-    res_new = internalLengths(test[[1]])
-    input = calculate_leaf_info(res_new[[2]],n)
-    #print(res_new[[2]])
-    res = ew_durrett_adapted(n, res_new[[2]])
-    est[i] = res
-  }
-  return(mean(est))
-  
 }
-print(rep_new(100, 9, 40, 2))
+print(rep_new(100, 5, 40, 0.5))
 
