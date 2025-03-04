@@ -1,4 +1,4 @@
-# Calculates the Estimator with the new idea
+# Calculates the Estimator with the new idea, i.e. \hat r_{new}
 
 is_valid_permutation <- function(h, k, n) {
   if (k > 1) {
@@ -12,22 +12,13 @@ is_valid_permutation <- function(h, k, n) {
         }
       }
     }
-    #print(h[n-k])
-    #print(h[(n - k+1):(n-1)])
+  
     if (h[n - k] > max(h[(n - k+1):(n-1)])) {
       return(FALSE)
     }
   }
   return(TRUE)
 }
-
-k <- 4
-h_values = seq(1, 5)
-n <- length(h_values) +1
-permutations <- permutations(n = length(h_values), r = length(h_values), v = h_values)
-valid_permutations <- permutations[apply(permutations, 1, function(perm) is_valid_permutation(perm, k, n)), ]
-ratio <- nrow(valid_permutations) / factorial(n-1)
-cat(sprintf("Ratio of Valid Permutations: %.4f\n", ratio))
 
 
 calculate_leaf_info <- function(tree_data, n) {
