@@ -4,8 +4,8 @@ library(gtools)
 library(pracma) 
 library(cloneRate)
 library(Rmpfr)
-source("own_idea.R")
-source("Simulation_self.R")
+source("new_Estimator.R")
+source("Simulation_CPP.R")
 
 # Important to calculate the expected value according to Durrett
 ew_durrett <- function(n){
