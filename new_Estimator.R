@@ -1,5 +1,5 @@
 # Calculates the Estimator with the new idea, i.e. \hat r_{new}
-source("Simulation_self.R")
+source("Simulation_CPP.R")
 is_valid_permutation <- function(h, k, n) {
   if (k > 1) {
     if (h[k] > max(h[1:(k-1)])) {
