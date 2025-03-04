@@ -2,9 +2,9 @@ This code can be used to estimate the net growth rate. It uses parts of the R pa
 
 ### Overview of the Files
 
-Estimation_Durrett.R: Estimation of the net growth rate with the formula of Durrett. <br>
+new_Estimator.R: Implementation of \hat r_{new}. <br>7
 calc_prefactor.R: Determination of the prefactors for \hat r_{JS, MSE}. <br>
-simulation_CPP.R: Simulation of the CPP, for which we need some new outputs compared to cloneRate. However, the code is basically the same as in cloneRate. <br>
+simulation_CPP.R: Simulation of the CPP, for which we need some other outputs compared to cloneRate. However, the code is basically the same as in cloneRate. <br>
 main.R: Comparison of the different estimation methods, including Phylofit and the new ones. <br> 
 Create_Plot.R: Plot the results. <br>
 
