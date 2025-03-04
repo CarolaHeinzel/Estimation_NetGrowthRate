@@ -1,5 +1,6 @@
-source("C:\\Users\\carol\\OneDrive\\Desktop\\Promotion\\San Diego\\main.R")
+source("C:\\Users\\carol\\OneDrive\\Desktop\\Promotion\\San Diego\\main.R") # We need calc_estimator_adapted, simUltra from the main file
 
+# This code calculates the prefactor \tilde c_{T, MSE}(n)
 
 calc_prefactor <- function(n, num_Rep, t, r){
   ew_CH <- c(num_Rep)
@@ -26,5 +27,5 @@ rep_calc_prefactor <- function(n_range, num_Rep, t, r){
 }
 
 
-res_alpha_all = rep_calc_prefactor(c(5,6,7,8,9,10), 1000, 100, 1)
+res_alpha_all = rep_calc_prefactor(c(5), 1000, 100, 2)
 print(res_alpha_all)
