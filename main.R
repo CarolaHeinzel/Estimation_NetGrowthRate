@@ -4,8 +4,8 @@ library(gtools)
 library(pracma) 
 library(cloneRate)
 library(Rmpfr)
-source("C:\\Users\\carol\\OneDrive\\Desktop\\Promotion\\San Diego\\own_idea.R")
-source("C:\\Users\\carol\\OneDrive\\Desktop\\Promotion\\San Diego\\Simulation_self.R")
+source("own_idea.R")
+source("Simulation_self.R")
 
 # Important to calculate the expected value according to Durrett
 ew_durrett <- function(n){
