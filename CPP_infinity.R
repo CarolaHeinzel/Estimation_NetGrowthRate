@@ -1,6 +1,13 @@
 # Simulate ultrametric birth and death branching trees for T = \infty
 library(Rmpfr)
 
+inv_cdf_coal_times_inf <- function(y, net, a, precBits) {
+  one <- mpfr(1, precBits)
+  rv <- mpfr(stats::runif(1, min = 0, max = 1), precBits)
+  u = log((1+y)/((one-rv)*y) - one)
+  return(one/net*(log(y) + u))
+}
+
 simUltra_infty <- function(a, b, n, nTrees = 1,
                      precBits = 1000, addStem = FALSE, nCores = 1) {
   # Store runtime for each tree
@@ -20,10 +27,9 @@ simUltra_infty <- function(a, b, n, nTrees = 1,
                             net = net_mpfr,
                             a = a_mpfr, precBits = precBits
   )
-  
   # Convert back to normal numeric (no longer need high precision)
   coal_times <- suppressWarnings(sapply(coal_times_mpfr, Rmpfr::asNumeric))
-  
+ # print(coal_times)
   # Convert coal times into tree by randomly merging lineages
   tree <- coal_to_tree(coal_times)
   
@@ -34,85 +40,53 @@ simUltra_infty <- function(a, b, n, nTrees = 1,
     tree$edge.length <- c(max(coal_times), tree$edge.length)
     tree$Nnode <- tree$Nnode + 1
   }
-  
   # Add metadata for making the tree
   runtime <- proc.time()[["elapsed"]] - ptm[["elapsed"]]
   tree$metadata <- data.frame(
     "r" = a - b, "a" = a, "b" = b,
     "n" = n, "runtime_seconds" = runtime, "addStem" = addStem
   )
-  
   # Return the tree created from the coalescence times drawn from Lambert distribution
-  return(tree)
+  return(list(tree, coal_times))
 }
-  
-
+# Example Usage
 tree = simUltra_infty(2,1,5)
 print(tree)
+print(tree[[1]]$edge.length)
 
-
-
-coal_to_tree <- function(coal_times) {
-  # coal_times must be a vector of numbers
-  if (!inherits(coal_times, "numeric") | length(coal_times) < 2) {
-    stop("coal_times input to coal_to_tree() function must a numeric vector")
-  }
-  
-  # Get number of tips, n
-  n <- length(coal_times) + 1
-  
-  # Set number of total edges and initialize edge and edge.length
-  numEdges <- 2 * n - 2
-  edge.length <- rep(0, numEdges)
-  edge <- matrix(NA, nrow = numEdges, ncol = 2)
-  
-  # Fill heights vec to keep track of height of nodes
-  heights <- rep(0, numEdges - 1)
-  
-  # Sort coalescence times (smallest to largest)
-  coal_times_sorted <- sort(coal_times, decreasing = FALSE)
-  possibleChildren <- as.integer(c(1:n))
-  currentNode <- as.integer(2 * n - 1)
-  
-  # Loop through n-1 internal nodes
-  for (i in 1:(n - 1)) {
-    # Sample the children
-    children <- sample(possibleChildren, size = 2, replace = FALSE)
-    
-    # Go to next open row
-    row <- which(is.na(edge[, 1]))[c(1, 2)]
-    
-    # Fill second column with children and first with node
-    edge[row, 2] <- children
-    edge[row, 1] <- currentNode
-    
-    # Set edge.length as diff. between coal time and children height
-    edge.length[row] <- coal_times_sorted[i] - heights[children]
-    
-    # Set height of current node
-    heights[currentNode] <- coal_times_sorted[i]
-    
-    # Add current node to list of possible children
-    possibleChildren <- c(possibleChildren[!possibleChildren %in% children], currentNode)
-    
-    # Move on to the next current node
-    currentNode <- currentNode - 1L
-  }
-  
-  # Make tree as list
-  tree <- list(edge = edge, edge.length = edge.length, Nnode = as.integer(n - 1))
-  tree$tip.label <- sample(paste0("t", c(1:n)), replace = FALSE)
-  
-  # Set class
-  class(tree) <- "phylo"
-  
-  return(tree)
+# Calculate the optimal constants
+compute_list_properties <- function(liste, n) {
+  normal_list = liste
+  max_value <- max(normal_list)
+  mean_value <- mean(normal_list)
+  # ∑_i ∑_j (H_i - H_j)^+
+  double_sum <- sum(outer(normal_list, normal_list, function(x, y) pmax(0, x - y)))
+  return(list(Maximum = max_value, Mittelwert = mean_value, d_sum = double_sum))
 }
 
-inv_cdf_coal_times_inf <- function(y, net, a, precBits) {
-  one <- mpfr(1, precBits)
-  rv <- mpfr(stats::runif(1, min = 0, max = 1), precBits)
-  phi <-(y*a*net - rv*y*a*(net - y*a))
-  return((-one / net) * log(rv/(1-rv)*1/y))
+
+calc_estimator_adapted <- function(n, h){
+  values <- compute_list_properties(h, n)
+  est <-  values$d_sum
+  return(1/est)
+}
+
+calc_prefactor <- function(n, numRep, r){
+  ew_CH <- rep(0, numRep)
+  for(i in 1:numRep){
+    a = runif(1, min = r, max = r+1)
+    test <- simUltra_infty(a,b = a - r,n = n,nTrees = 1,precBits = 1000,addStem = FALSE,nCores = 1)
+    h = test[[2]]
+    ew_CH[i] = calc_estimator_adapted(n, h)
+  }
+  v1 = ew_CH
+  # Save the simulated values
+  filename <- paste0("CPPs_infinity_1_", n, "_r_", r, ".txt")
+  write.table(ew_CH, file = filename, row.names = FALSE, col.names = FALSE)
+  y1 <- rep(r, numRep) 
+  # constant that minimizes the MSE
+  alpha_opt_CH <- sum(v1 * y1) / sum(v1^2) # pre factor
+ 
+  return(list(alpha_opt_CH))
 }
 
