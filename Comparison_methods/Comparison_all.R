@@ -39,13 +39,13 @@ repeat_simulation <- function(num_Rep, n, r, t){
     estimator_JS[i] = calc_estimator_adapted(n, h)#[[1]]
 
     # Estimator based on Johnson et al.
-    estimator_old[i] = 1/il
+    estimator_old[i] = n/il
     
     # Phylofit
     test_mcmc <-birthDeathMCMC(test[[1]],maxGrowthRate = 4,alpha = 0.05,verbose = TRUE,nChains = 4,nCores = 1,chainLength = 2000 )
     estimator_mcmc[i] <- test_mcmc$estimate
   }
-  filename <- paste0("C:\\Users\\carol\\OneDrive\\Desktop\\Promotion\\San Diego\\Results\\Simulation_infinity\\CPPs_eva_",t,"_n_", n, "_r_", r, ".txt")
+  filename <- paste0("CPPs_eva_",t,"_n_", n, "_r_", r, ".txt")
   est_all = cbind(estimator_JS, estimator_old, estimator_mcmc)
   write.table(est_all, file = filename, row.names = FALSE, col.names = FALSE)
   
