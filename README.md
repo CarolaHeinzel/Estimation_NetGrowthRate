@@ -1,12 +1,14 @@
-This code can be used to estimate the net growth rate. It uses parts of the R package [cloneRate](https://github.com/bdj34/cloneRate?tab=readme-ov-file)
+This code can be used to estimate the net growth rate as described in the paper [""]() by Carola Heinzel and Jason Schweinsberg. It uses parts of the R package [cloneRate](https://github.com/bdj34/cloneRate?tab=readme-ov-file)
 
-### Overview of the Files
 
-new_Estimator.R: Implementation of \hat r_{new}. <br>7
-calc_prefactor.R: Determination of the prefactors for \hat r_{JS, MSE}. <br>
-simulation_CPP.R: Simulation of the CPP, for which we need some other outputs compared to cloneRate. However, the code is basically the same as in cloneRate. <br>
-main.R: Comparison of the different estimation methods, including Phylofit and the new ones. <br> 
-Create_Plot.R: Plot the results. <br>
+### Overview of the Files and Folders
+
+new_Estimator.R: Implementation of \hat r_{new}. <br> 
+Calc_quantile.R: Calculation of the quantiles. <br>
+CPP_infinity.R: Determination of the prefactors for \hat r_{MSE} and simulates CPPs for T = \infty. <br>
+Data: Simulated values for the internal branch lengths of a coalescent point process (called S(n) in the paper). <br>
+Comparison_methods: Comparison of the different estimation methods, including Phylofit and the new ones. <br> 
+Plots: Contains the code to create the figures in our paper. <br>
 
 ### Usage
 
