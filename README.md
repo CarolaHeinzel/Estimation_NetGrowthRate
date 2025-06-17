@@ -6,7 +6,7 @@ This code can be used to estimate the net growth rate as described in the paper 
 The following files might be important to apply our method to new data: <br>
 
 New_Estimator.R: Implementation of \hat r_{new}. This file includes an example how to use it to new data. <br> 
-Calc_quantile.R: Calculation of the quantiles. <br>
+Calc_q.R: Calculation of the constants to get the quantiles. <br>
 CPP_infinity.R: Determination of the prefactors for \hat r_{MSE} and simulates CPPs for T = \infty. <br>
 
 The following folders contain code to reproduce the results from the paper. <br>
