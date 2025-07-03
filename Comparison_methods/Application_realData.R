@@ -23,6 +23,20 @@ coal_times <- node.depth.edgelength(tree)
 # Print Coalescence Times
 coal_times[(Ntip(realCloneData[["cloneTrees"]][[ind]])+1):(2*realCloneData[["cloneTrees"]][[ind]]$Nnode+1)]
 
+# Calculate new estimator
+compute_list_properties <- function(liste, n) {
+  normal_list = liste
+  
+  # ∑_i ∑_j (H_i - H_j)^+
+  double_sum <- sum(outer(normal_list, normal_list, function(x, y) pmax(0, x - y)))
+  
+  return(double_sum)
+}
+
+calc_estimator_adapted <- function(n, h){
+  values <- compute_list_properties(h, n)
+  return(1/values)
+}
 
 # Apply the different esimtation methods to the data
 calc_estimator_realdata <- function(numInds){
@@ -53,23 +67,5 @@ calc_estimator_realdata <- function(numInds){
 }
 
 est_real = calc_estimator_realdata(2)
-print(est_real[[3]][5]*161.7437)
 
 
-# Plot the results
-library(ggplot2)
-
-# 0.1371847, 0.145, 0.196
-# Erstelle die Daten
-data <- data.frame(
-  Method = rep(c("Phylofit", "Johnson", "New"), each = 2),  # Die Gruppen Phylofit, Johnson, New
-  Wert = c(0.145, 0.2650246 , 0.196, 0.2944672, 0.1371847, 0.2375439),  # Werte
-  Kategorie = rep(c(" PD34493", " PD41305"), 3)  # Kategorien
-)
-
-# Erstelle das Balkendiagramm
-ggplot(data, aes(x = Kategorie, y = Wert, fill = Method, group = Method)) +
-  geom_bar(stat = "identity", position = "dodge") +  # 'dodge' für nebeneinander liegende Balken
-  labs(x = "Individual", y = "Estimator") +
-  theme_minimal() +
-  scale_fill_manual(values = c("Phylofit" = "lightblue", "Johnson" = "lightgreen", "New" = "green"))  # Farben für die Gruppen
