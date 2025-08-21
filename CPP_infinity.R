@@ -1,4 +1,5 @@
 # Simulate ultrametric birth and death branching trees for T = \infty
+# the code is based on the R-package cloneRate
 library(Rmpfr)
 
 inv_cdf_coal_times_inf <- function(y, net, a, precBits) {
