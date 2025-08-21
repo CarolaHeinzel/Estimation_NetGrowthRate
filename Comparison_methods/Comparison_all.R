@@ -39,7 +39,7 @@ repeat_simulation <- function(num_Rep, n, r, t){
     # Estimator based on Johnson et al.
     estimator_old[i] = n/il
     
-    # Phylofit
+    # Method by Tanja Stadler
     test_mcmc <-birthDeathMCMC(test[[1]],maxGrowthRate = 4,alpha = 0.05,verbose = TRUE,nChains = 4,nCores = 1,chainLength = 2000 )
     estimator_mcmc[i] <- test_mcmc$estimate
   }
@@ -47,7 +47,7 @@ repeat_simulation <- function(num_Rep, n, r, t){
   est_all = cbind(estimator_JS, estimator_old, estimator_mcmc)
   write.table(est_all, file = filename, row.names = FALSE, col.names = FALSE)
   
-  # Johnson, Phylofit, New estimator (without the constant)
+  # Johnson, Method by Tanja Stadler, New estimator (without the constant)
   return(list(estimator_old, estimator_mcmc, estimator_JS))
 }
 
