@@ -1,11 +1,11 @@
-This code can be used to estimate the net growth rate as described in the paper [""]() by Carola Heinzel and Jason Schweinsberg. It uses parts of the R package [cloneRate](https://github.com/bdj34/cloneRate?tab=readme-ov-file)
+This code can be used to estimate the net growth rate as described in the paper ["Estimating the growth rate of a birth and death process using data from a small sample"]() by Carola Heinzel and Jason Schweinsberg. It uses parts of the R package [cloneRate](https://github.com/bdj34/cloneRate?tab=readme-ov-file).
 
 
 ### Overview of the Files and Folders
 
 The following files might be important to apply our method to new data: <br>
 
-New_Estimator.R: Implementation of \hat r_{new}. This file includes an example how to use it to new data. <br> 
+New_Estimator.R: Implementation of \hat r_{MSE}, \hat r_{Bias} and \hat r_{Inv}. This file includes an example how to use it to new data. <br> 
 Calc_q.R: Calculation of the constants to get the quantiles. <br>
 CPP_infinity.R: Determination of the prefactors for \hat r_{MSE} and simulates CPPs for T = \infty. <br>
 
