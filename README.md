@@ -11,4 +11,3 @@ CPP_infinity.R: Determination of the prefactors for \hat r_{MSE} and simulates C
 The following folders contain code to reproduce the results from the paper. <br>
 Results_CPP: Simulated values for the internal branch lengths of a coalescent point process (called S(n) in the paper). <br>
 Comparison_methods: Comparison of the different estimation methods, including Phylofit and the new ones. <br> 
-Plots: Contains the code to create the figures in our paper. <br>
