@@ -1,6 +1,7 @@
 # Simulate ultrametric birth and death branching trees for T = \infty
 # the code is based on the R-package cloneRate
 library(Rmpfr)
+library(cloneRate)
 
 inv_cdf_coal_times_inf <- function(y, net, a, precBits) {
   one <- mpfr(1, precBits)
@@ -10,7 +11,7 @@ inv_cdf_coal_times_inf <- function(y, net, a, precBits) {
 }
 
 simUltra_infty <- function(a, b, n, nTrees = 1,
-                     precBits = 1000, addStem = FALSE, nCores = 1) {
+                           precBits = 1000, addStem = FALSE, nCores = 1) {
   # Store runtime for each tree
   ptm <- proc.time()
   # Convert params to high precision mpfr
@@ -30,7 +31,7 @@ simUltra_infty <- function(a, b, n, nTrees = 1,
   )
   # Convert back to normal numeric (no longer need high precision)
   coal_times <- suppressWarnings(sapply(coal_times_mpfr, Rmpfr::asNumeric))
- # print(coal_times)
+  # print(coal_times)
   # Convert coal times into tree by randomly merging lineages
   tree <- coal_to_tree(coal_times)
   
@@ -72,8 +73,12 @@ calc_estimator_adapted <- function(n, h){
   return(1/est)
 }
 
-calc_prefactor <- function(n, numRep, r){
+# Calculates c_{MSE}(n) by approximating the integral numerically
+calc_prefactor <- function(n, numRep){
+  # numRep is the number of simulations that are used to calculate
+  # the constant, i.e. increasing numRep leads to more accurate results.
   ew_CH <- rep(0, numRep)
+  r = 1
   for(i in 1:numRep){
     a = runif(1, min = r, max = r+1)
     test <- simUltra_infty(a,b = a - r,n = n,nTrees = 1,precBits = 1000,addStem = FALSE,nCores = 1)
@@ -87,7 +92,9 @@ calc_prefactor <- function(n, numRep, r){
   y1 <- rep(r, numRep) 
   # constant that minimizes the MSE
   alpha_opt_CH <- sum(v1 * y1) / sum(v1^2) # pre factor
- 
+  
   return(list(alpha_opt_CH))
 }
 
+# example usage
+c = calc_prefactor(10, 100, 1)
