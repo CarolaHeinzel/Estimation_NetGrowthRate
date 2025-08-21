@@ -39,7 +39,7 @@ calc_estimator_adapted <- function(n, h){
 }
 
 # Apply the different esimtation methods to the data
-calc_estimator_realdata <- function(numInds){
+calc_estimator_realdata <- function(numInds, c){
   estimator_JS = rep(0, numInds)
   estimator_mcmc = rep(0, numInds)
   estimator_old = rep(0, numInds)
@@ -54,7 +54,7 @@ calc_estimator_realdata <- function(numInds){
       h = coal_times[(Ntip(realCloneData[["cloneTrees"]][[ind]])+1):(2*realCloneData[["cloneTrees"]][[ind]]$Nnode+1)]
       
       # New estimator
-      estimator_JS[i] = calc_estimator_adapted(n, h)
+      estimator_JS[i] = c * calc_estimator_adapted(n, h)
       
       # Estimator based on Johnson et al.
       estimator_old[i] = n/il
@@ -66,6 +66,6 @@ calc_estimator_realdata <- function(numInds){
   return(list(estimator_mcmc,estimator_old, estimator_JS ))
 }
 
-est_real = calc_estimator_realdata(2)
+est_real = calc_estimator_realdata(2, c)
 
 
