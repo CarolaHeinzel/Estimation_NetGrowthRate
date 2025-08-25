@@ -1,4 +1,4 @@
-This code can be used to estimate the net growth rate as described in the paper ["Estimating the growth rate of a birth and death process using data from a small sample"]() by Carola Heinzel and Jason Schweinsberg. It uses parts of the R package [cloneRate](https://github.com/bdj34/cloneRate?tab=readme-ov-file).
+This code can be used to estimate the net growth rate as described in the paper ["Estimating the growth rate of a birth and death process using data from a small sample"](https://arxiv.org/abs/2508.16110) by Carola Heinzel and Jason Schweinsberg. It uses parts of the R package [cloneRate](https://github.com/bdj34/cloneRate?tab=readme-ov-file).
 
 
 ### Overview of the Files and Folders
