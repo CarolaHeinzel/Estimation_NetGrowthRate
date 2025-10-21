@@ -12,6 +12,22 @@ The following folders contain code to reproduce the results from the paper. <br>
 Results_CPP: Simulated values for the internal branch lengths of a coalescent point process (called S(n) in the paper). <br>
 Comparison_methods: Comparison of the different estimation methods, including Phylofit and the new ones. <br> 
 
+
+### Packages and Dependencies
+
+We tested the code with:
+
+- **R version:** 4.5.1  
+- **Platform:** x86_64-w64-mingw32  
+- **R packages:**
+  - cloneRate 0.2.3
+  - ape 5.8.1
+  - gtools 3.9.5
+  - pracma 2.4.4
+  - Rmpfr 1.1.0
+  - reshape2 1.4.4
+
+
 ### Funding Acknowledgement
 
 Funded by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) – Project-ID 499552394 – SFB 1597.
